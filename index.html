@@ -13,16 +13,35 @@
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
-        html, body, #map {
+        html, body {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
         }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        #header {
+            flex: 0 0 auto;
+            background-color: #009A44; /* verde bandera de Barranquilla, ajustar si tienes el tono exacto */
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: left;
+            padding: 12px 0 12px 20px;
+        }
+        #map {
+            flex: 1 1 auto;
+            width: 100%;
+        }
         </style>
         <title></title>
     </head>
     <body>
+        <div id="header">Geovisor de Hospitales y Colegios de Barranquilla</div>
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -37,8 +56,8 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="data/hospitals_baq_1.js"></script>
-        <script src="data/schools_baqschool_baq_2.js"></script>
+        <script src="data/schools_baqcomplete_1.js"></script>
+        <script src="data/hospitals_baqcomplete_2.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -57,7 +76,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[11.012645003055905,-74.81814660314024],[11.021670803055923,-74.78936104940186]]);
+        }).fitBounds([[10.902678567397276,-74.92884758479465],[11.069012007397292,-74.71869606260285]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -162,7 +181,7 @@
         });
         layer_GoogleHybrid_0;
         map.addLayer(layer_GoogleHybrid_0);
-        function pop_hospitals_baq_1(feature, layer) {
+        function pop_schools_baqcomplete_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -175,15 +194,13 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">amenity</th>\
-                        <td class="visible-with-data" id="amenity">' + (feature.properties['amenity'] !== null ? autolinker.link(String(feature.properties['amenity']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Name: </strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2" class="visible-with-data" id="addr:street"><strong>Address street: </strong><br />' + (feature.properties['addr:street'] !== null ? autolinker.link(String(feature.properties['addr:street']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">addr:neighbourhood</th>\
-                        <td class="visible-with-data" id="addr:neighbourhood">' + (feature.properties['addr:neighbourhood'] !== null ? autolinker.link(String(feature.properties['addr:neighbourhood']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2" class="visible-with-data" id="addr:housenumber"><strong>Address housenumber: </strong><br />' + (feature.properties['addr:housenumber'] !== null ? autolinker.link(String(feature.properties['addr:housenumber']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -193,43 +210,43 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_hospitals_baq_1_0() {
+        function style_schools_baqcomplete_1_0() {
             return {
-                pane: 'pane_hospitals_baq_1',
+                pane: 'pane_schools_baqcomplete_1',
                 radius: 6.0,
                 opacity: 1,
-                color: 'rgba(247,247,247,1.0)',
+                color: 'rgba(249,249,249,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(196,19,15,1.0)',
+                fillColor: 'rgba(19,37,190,1.0)',
                 interactive: true,
             }
         }
-        map.createPane('pane_hospitals_baq_1');
-        map.getPane('pane_hospitals_baq_1').style.zIndex = 401;
-        map.getPane('pane_hospitals_baq_1').style['mix-blend-mode'] = 'normal';
-        var layer_hospitals_baq_1 = new L.geoJson(json_hospitals_baq_1, {
+        map.createPane('pane_schools_baqcomplete_1');
+        map.getPane('pane_schools_baqcomplete_1').style.zIndex = 401;
+        map.getPane('pane_schools_baqcomplete_1').style['mix-blend-mode'] = 'normal';
+        var layer_schools_baqcomplete_1 = new L.geoJson(json_schools_baqcomplete_1, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_hospitals_baq_1',
-            layerName: 'layer_hospitals_baq_1',
-            pane: 'pane_hospitals_baq_1',
-            onEachFeature: pop_hospitals_baq_1,
+            dataVar: 'json_schools_baqcomplete_1',
+            layerName: 'layer_schools_baqcomplete_1',
+            pane: 'pane_schools_baqcomplete_1',
+            onEachFeature: pop_schools_baqcomplete_1,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_hospitals_baq_1_0(feature));
+                return L.circleMarker(latlng, style_schools_baqcomplete_1_0(feature));
             },
         });
-        bounds_group.addLayer(layer_hospitals_baq_1);
-        map.addLayer(layer_hospitals_baq_1);
-        function pop_schools_baqschool_baq_2(feature, layer) {
+        bounds_group.addLayer(layer_schools_baqcomplete_1);
+        map.addLayer(layer_schools_baqcomplete_1);
+        function pop_hospitals_baqcomplete_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -242,18 +259,13 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">amenity</th>\
-                        <td class="visible-with-data" id="amenity">' + (feature.properties['amenity'] !== null ? autolinker.link(String(feature.properties['amenity']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Name: </strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2" class="visible-with-data" id="addr:street"><strong>Address street: </strong><br />' + (feature.properties['addr:street'] !== null ? autolinker.link(String(feature.properties['addr:street']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">addr:full</th>\
-                        <td class="visible-with-data" id="addr:full">' + (feature.properties['addr:full'] !== null ? autolinker.link(String(feature.properties['addr:full']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['email'] !== null ? autolinker.link(String(feature.properties['email']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2" class="visible-with-data" id="addr:housenumber"><strong>Address housenumber: </strong><br />' + (feature.properties['addr:housenumber'] !== null ? autolinker.link(String(feature.properties['addr:housenumber']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -263,42 +275,42 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_schools_baqschool_baq_2_0() {
+        function style_hospitals_baqcomplete_2_0() {
             return {
-                pane: 'pane_schools_baqschool_baq_2',
+                pane: 'pane_hospitals_baqcomplete_2',
                 radius: 6.0,
                 opacity: 1,
-                color: 'rgba(246,246,246,1.0)',
+                color: 'rgba(232,232,232,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(10,13,196,1.0)',
+                fillColor: 'rgba(155,7,14,1.0)',
                 interactive: true,
             }
         }
-        map.createPane('pane_schools_baqschool_baq_2');
-        map.getPane('pane_schools_baqschool_baq_2').style.zIndex = 402;
-        map.getPane('pane_schools_baqschool_baq_2').style['mix-blend-mode'] = 'normal';
-        var layer_schools_baqschool_baq_2 = new L.geoJson(json_schools_baqschool_baq_2, {
+        map.createPane('pane_hospitals_baqcomplete_2');
+        map.getPane('pane_hospitals_baqcomplete_2').style.zIndex = 402;
+        map.getPane('pane_hospitals_baqcomplete_2').style['mix-blend-mode'] = 'normal';
+        var layer_hospitals_baqcomplete_2 = new L.geoJson(json_hospitals_baqcomplete_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_schools_baqschool_baq_2',
-            layerName: 'layer_schools_baqschool_baq_2',
-            pane: 'pane_schools_baqschool_baq_2',
-            onEachFeature: pop_schools_baqschool_baq_2,
+            dataVar: 'json_hospitals_baqcomplete_2',
+            layerName: 'layer_hospitals_baqcomplete_2',
+            pane: 'pane_hospitals_baqcomplete_2',
+            onEachFeature: pop_hospitals_baqcomplete_2,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_schools_baqschool_baq_2_0(feature));
+                return L.circleMarker(latlng, style_hospitals_baqcomplete_2_0(feature));
             },
         });
-        bounds_group.addLayer(layer_schools_baqschool_baq_2);
-        map.addLayer(layer_schools_baqschool_baq_2);
+        bounds_group.addLayer(layer_hospitals_baqcomplete_2);
+        map.addLayer(layer_hospitals_baqcomplete_2);
         const url = {"Nominatim OSM": "https://nominatim.openstreetmap.org/search?format=geojson&addressdetails=1&",
         "France BAN": "https://api-adresse.data.gouv.fr/search/?"}
         var photonControl = L.control.photon({
@@ -353,8 +365,8 @@
             }
         });
         var overlaysTree = [
-            {label: '<img src="legend/schools_baqschool_baq_2.png" /> schools_baq — school_baq', layer: layer_schools_baqschool_baq_2},
-            {label: '<img src="legend/hospitals_baq_1.png" /> hospitals_baq', layer: layer_hospitals_baq_1},
+            {label: '<img src="legend/hospitals_baqcomplete_2.png" /> hospitals_baq — complete', layer: layer_hospitals_baqcomplete_2},
+            {label: '<img src="legend/schools_baqcomplete_1.png" /> schools_baq — complete', layer: layer_schools_baqcomplete_1},
             {label: "Google Hybrid", layer: layer_GoogleHybrid_0, radioGroup: 'bm' },]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,

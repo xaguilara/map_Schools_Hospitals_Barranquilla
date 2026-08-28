@@ -1,8 +1,3 @@
-link to map: https://xaguilara.github.io/map_Schools_Hospitals_Barranquilla/
-
-link to dashboard: https://xaguilara.github.io/map_Schools_Hospitals_Barranquilla/dashboard.html 
-
-
 # README – Standalone qgis2web Export
 
 This export is completely "self-contained".
