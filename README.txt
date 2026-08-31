@@ -1,3 +1,62 @@
+# Health & Education Facilities — Barranquilla
+
+Geospatial analysis and visualization of the **health** (hospitals and clinics) and **education** (schools) facilities of Barranquilla, Colombia. Built end to end with open-source tools: data download and processing in **QGIS**, spatial analysis and visualization in **Python**, and web publishing with **Leaflet** and **GitHub Pages**.
+
+*Read this in [Spanish / Español](README.md).*
+
+## 🌐 Live products
+
+- **🗺️ Interactive map (viewer):** [Open viewer](https://xaguilara.github.io/map_Schools_Hospitals_Barranquilla/)
+  Web map with hospitals and schools color-coded by type, pop-ups showing each facility's name, and a layer toggle.
+
+- **📊 Dashboard:** [Open dashboard](https://xaguilara.github.io/map_Schools_Hospitals_Barranquilla/dashboard.html)
+  A dashboard combining key figures (counts by type), a distribution chart, and the interactive map, with a reference legend.
+
+## 🎯 Objective
+
+Locate and characterize the health and education facilities of Barranquilla, and answer an urban-accessibility question: **what share of schools has a health service (hospital or clinic) within 500 meters?**
+
+## 🔎 Key finding
+
+**57.4% of schools (136 of 237) have a hospital or clinic within 500 meters.**
+
+The result was computed independently by two methods —geoprocessing in QGIS (*buffer* + select by location) and a spatial SQL query (`ST_Distance`)— and both returned the same value (136), which validates the analysis.
+
+## 🗂️ Data
+
+- **Source:** OpenStreetMap (downloaded with the QuickOSM plugin in QGIS).
+- Open data was processed and cleaned locally before publishing.
+
+## ⚙️ Methodology
+
+1. **Download** facilities from OpenStreetMap by category (`amenity = hospital/clinic/school`).
+2. **Integration** of features mapped as points and as polygons (converting polygons to their centroid and merging layers) to avoid losing records.
+3. **Attribute cleanup**, done non-destructively, keeping only the relevant fields (name, type, address).
+4. **Proximity spatial analysis**, solved and validated through three independent paths:
+   - Visual geoprocessing in QGIS: reprojection to a metric system (UTM 18N), a 500 m *buffer*, and select by location.
+   - **Spatial SQL** over a GeoPackage (`ST_Distance`).
+   - **Python** with GeoPandas (`sjoin_nearest`) and a distance histogram.
+5. **Web publishing** of the map (Leaflet, exported with qgis2web) and the dashboard (Python), hosted on GitHub Pages.
+
+## 🧰 Tech stack
+
+- **QGIS** — download (QuickOSM), processing, geoprocessing, and web export (qgis2web).
+- **Python** — GeoPandas, Folium, and Matplotlib for analysis and the dashboard.
+- **Spatial SQL** — GeoPackage / SpatiaLite (`ST_` functions).
+- **Leaflet** — interactive web map.
+- **GitHub Pages** — hosting.
+
+## 📌 Notes
+
+Portfolio-oriented practice project. Data comes from OpenStreetMap, so its completeness depends on the community that maintains it.
+
+---
+
+**Author:** Ximena Aguilar —  Architect . GIS Analyst Junior
+
+
+**SPANISH VERSION**
+
 # Ejercicio de Equipamientos de Salud y Educación — Barranquilla
 
 Proyecto de análisis y visualización geoespacial de los equipamientos de **salud** (hospitales y clínicas) y **educación** (colegios) de Barranquilla, Colombia. Construido de punta a punta con herramientas de código abierto: descarga y procesamiento de datos en **QGIS**, análisis espacial y visualización en **Python**, y publicación web con **Leaflet** y **GitHub Pages**.
